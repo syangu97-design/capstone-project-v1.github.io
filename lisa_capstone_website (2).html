@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lisa's Capstone Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #fff8f4;
+      --bg-card: #fffbf7;
+      --rose-dark: #3d2535;
+      --rose-main: #c95c7a;
+      --rose-soft: #f7c5d0;
+      --rose-border: #ead1d9;
+      --rose-bullet: #ea879b;
+      --rose-light-text: #8a5d70;
+      --body-text: #7a4f62;
+      --body-text-dark: #4b3240;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg-main);
+      color: var(--body-text);
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(60px);
+      z-index: 0;
+    }
+    body::before {
+      width: 30rem;
+      height: 30rem;
+      top: -6rem;
+      right: -6rem;
+      background: radial-gradient(circle, rgba(249, 212, 224, 0.72) 0%, rgba(249, 212, 224, 0) 70%);
+    }
+    body::after {
+      width: 28rem;
+      height: 28rem;
+      left: -6rem;
+      bottom: -6rem;
+      background: radial-gradient(circle, rgba(221, 212, 240, 0.72) 0%, rgba(221, 212, 240, 0) 70%);
+    }
+    .page {
+      width: min(1200px, calc(100% - 64px));
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem 5rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 1rem 0 3rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid #f3c5d4;
+      background: rgba(255, 251, 247, 0.92);
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose-main);
+      box-shadow: 0 6px 18px rgba(201, 92, 122, 0.08);
+    }
+    h1 {
+      margin: 2rem 0 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 500;
+      color: var(--rose-dark);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    h1 em {
+      display: block;
+      margin-top: 0.5rem;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--rose-main);
+    }
+    .hero-subtitle {
+      max-width: 42rem;
+      margin: 1.5rem auto 0;
+      font-size: 18px;
+      line-height: 1.8;
+      font-style: italic;
+      color: #6f5b66;
+    }
+    .hero-emoji {
+      margin-top: 2rem;
+      font-size: 1.9rem;
+      letter-spacing: 0.35em;
+      color: #efb3c1;
+    }
+    section { margin-top: 4rem; }
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-line {
+      width: 7rem;
+      height: 1px;
+    }
+    .section-line.left {
+      background: linear-gradient(to right, transparent, var(--rose-soft));
+    }
+    .section-line.right {
+      background: linear-gradient(to left, transparent, var(--rose-soft));
+    }
+    .section-title {
+      margin: 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-style: normal;
+      font-weight: 700;
+      color: var(--rose-main);
+    }
+    .key-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+    @keyframes key-bounce {
+      0%   { transform: translateY(0); }
+      25%  { transform: translateY(-14px); }
+      45%  { transform: translateY(0); }
+      62%  { transform: translateY(-7px); }
+      78%  { transform: translateY(0); }
+      90%  { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+
+    .key-card {
+      position: relative;
+      background: rgba(255, 251, 247, 0.92);
+      border: 1px solid #f3d7de;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(201, 92, 122, 0.08);
+    }
+    .key-card-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      border-radius: 1.5rem 1.5rem 0 0;
+    }
+    .bar-1 { background: linear-gradient(to right, #fb7185, #f9a8d4); }
+    .bar-2 { background: linear-gradient(to right, #a78bfa, #f0abfc); }
+    .bar-3 { background: linear-gradient(to right, #86efac, #99f6e4); }
+    .bar-4 { background: linear-gradient(to right, #fcd34d, #fde68a); }
+    .key-icon {
+      font-size: 2rem;
+      margin-top: 0.25rem;
+    }
+    .key-card h3 {
+      margin: 1rem 0 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--rose-main);
+    }
+    .key-card p {
+      margin: 0.9rem 0 0;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #6f5b66;
+    }
+    .divider {
+      margin: 3rem auto 0;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 0.35em;
+      color: #efc8d2;
+    }
+    .example-list {
+      display: grid;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .example-card {
+      border: 1px solid var(--rose-border);
+      background: var(--bg-card);
+      border-radius: 2rem;
+      padding: 2.25rem;
+      box-shadow: 0 8px 22px rgba(140, 82, 104, 0.08);
+    }
+    .example-card h3 {
+      margin: 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3rem;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--rose-main);
+    }
+    .example-subtitle {
+      margin-top: 0.55rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      font-style: italic;
+      color: var(--rose-light-text);
+    }
+    .example-summary {
+      margin-top: 2rem;
+      max-width: 64rem;
+      font-size: 1.08rem;
+      line-height: 1.9;
+      color: var(--body-text);
+    }
+    .example-bottom {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+    .key-points-box,
+    .reflection-box {
+      border: 1px solid var(--rose-border);
+      background: var(--bg-main);
+      border-radius: 2rem;
+      padding: 1.9rem 2rem;
+      box-shadow: 0 6px 16px rgba(140, 82, 104, 0.05);
+    }
+    .key-points-box { flex: 0 0 30%; }
+    .reflection-box { flex: 0 0 70%; }
+    .box-title {
+      margin: 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ee8ea3;
+    }
+    .key-points-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+      display: grid;
+      gap: 1.25rem;
+    }
+    .key-points-box li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .bullet {
+      width: 1rem;
+      height: 1rem;
+      margin-top: 0.7rem;
+      flex: 0 0 1rem;
+      border-radius: 50%;
+      background: var(--rose-bullet);
+    }
+    .key-text {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--body-text-dark);
+    }
+    .reflection-text {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--body-text);
+      margin: 0;
+    }
+    .reflection-text.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .read-more-btn {
+      margin-top: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--rose-border);
+      background: var(--bg-card);
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--body-text);
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(140, 82, 104, 0.08);
+    }
+    .conclusion {
+      margin-top: 5rem;
+      border: 1px solid #f2d7df;
+      background: rgba(255, 251, 247, 0.94);
+      border-radius: 2rem;
+      padding: 2.25rem;
+      box-shadow: 0 14px 30px rgba(201, 92, 122, 0.08);
+    }
+    .conclusion-label {
+      margin: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ee8ea3;
+      font-weight: 700;
+    }
+    .conclusion h2 {
+      margin: 0.75rem 0 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      color: var(--rose-main);
+    }
+    .conclusion p {
+      margin: 1.25rem 0 0;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #6f5b66;
+    }
+    @media (max-width: 1100px) {
+      .key-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .example-bottom { flex-direction: column; }
+      .key-points-box, .reflection-box { flex: 1 1 auto; }
+    }
+    @media (max-width: 700px) {
+      .page { padding: 1.25rem 1rem 4rem; }
+      .key-grid { grid-template-columns: 1fr; }
+      .example-card { padding: 1.5rem; }
+      .example-card h3 { font-size: 2.2rem; }
+      .key-points-box, .reflection-box { padding: 1.35rem 1.25rem; }
+      .hero-emoji { letter-spacing: 0.18em; font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="badge">✦ Lisa's Capstone Website</div>
+      <h1>More Than Just Games:<em>Learning from Video Games</em></h1>
+      <p class="hero-subtitle">
+        How playing Nintendo Switch taught me teamwork, problem-solving,
+        and language skills that I carry into real life.
+      </p>
+      <div class="hero-emoji">🎮 🌸 🧩 📚 🌿</div>
+    </header>
+
+    <section>
+      <div class="section-title-wrap">
+        <span class="section-line left"></span>
+        <h2 class="section-title">✦ Key Takeaways ✦</h2>
+        <span class="section-line right"></span>
+      </div>
+
+      <div class="key-grid">
+        <article class="key-card">
+          <div class="key-card-bar bar-1"></div>
+          <div class="key-icon">🍳</div>
+          <h3>Teamwork</h3>
+          <p>Overcooked taught communication, role-sharing, and staying calm under pressure — just like real group projects.</p>
+        </article>
+        <article class="key-card">
+          <div class="key-card-bar bar-2"></div>
+          <div class="key-icon">🗡️</div>
+          <h3>Problem-Solving</h3>
+          <p>Zelda encouraged creative thinking, trial-and-error, and flexible strategies when facing challenges.</p>
+        </article>
+        <article class="key-card">
+          <div class="key-card-bar bar-3"></div>
+          <div class="key-icon">⚖️</div>
+          <h3>Language Skills</h3>
+          <p>Ace Attorney made English learning feel more natural by building vocabulary through story and dialogue.</p>
+        </article>
+        <article class="key-card">
+          <div class="key-card-bar bar-4"></div>
+          <div class="key-icon">💡</div>
+          <h3>Big Insight</h3>
+          <p>Entertainment and learning are not opposites. Games can be a joyful way to grow useful real-life skills.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="divider">· · ✿ · ·</div>
+
+    <section class="example-list">
+      <article class="example-card">
+        <h3>Overcooked</h3>
+        <p class="example-subtitle">Teamwork &amp; Communication</p>
+        <p class="example-summary">Overcooked taught me that success depends on cooperation, role-sharing, and quick communication rather than individual effort alone.</p>
+        <div class="example-bottom">
+          <div class="key-points-box">
+            <h4 class="box-title">Key Points</h4>
+            <ul>
+              <li><span class="bullet"></span><span class="key-text">Communicate clearly with teammates</span></li>
+              <li><span class="bullet"></span><span class="key-text">Adjust roles when situations change</span></li>
+              <li><span class="bullet"></span><span class="key-text">Learn patience under pressure</span></li>
+            </ul>
+          </div>
+          <div class="reflection-box">
+            <p class="reflection-text collapsed" id="reflection-overcooked">
+              In Overcooked, I play with other people to carry out different chores in the kitchen. Teamwork is an area in which I learned a lot in this game. You cannot afford to win when you are just taking care of your job, like chopping the vegetables or putting the food on the plate. The kitchen is ever-changing. The floor is moving in certain situations, or there is a separate of pathways, or cases where items are moved to other areas. The entire team becomes a mess, and we are unable to complete orders without communicating with one another and collaborating with them. That is why we have to stay in touch. We remind one another of our missing ingredients, who does what, or change our jobs as and when it is necessary. In other cases, we are also called upon to be flexible when the kitchen layout alters. We are certain that all people are in the correct place to work. We eliminate the repetition of tasks by dividing the work in a proper manner and work more productively. This resembles real-life projects, which are carried out in groups. In doing the same thing, and the team members stay silent, then it is a waste of time, and it is hurtful to the team. I have learned how to remain calm, be a talker, and observer of what my teammates are up to so that we can achieve our objectives easily. It is by this game that I not only learnt to be patient, but I also learned to modify my work depending on the requirements of my teammates. I am now more aware of teamwork. The experience with Overcooked served to learn that teamwork process both during the games and in the real life has to be supported by the communication, cooperation, and patience.
+            </p>
+            <button class="read-more-btn" type="button" data-target="reflection-overcooked">Read more</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="example-card">
+        <h3>The Legend of Zelda</h3>
+        <p class="example-subtitle">Problem-Solving &amp; Creative Thinking</p>
+        <p class="example-summary">Zelda helped me develop a more patient and flexible way of solving problems through puzzles, exploration, and trial and error.</p>
+        <div class="example-bottom">
+          <div class="key-points-box">
+            <h4 class="box-title">Key Points</h4>
+            <ul>
+              <li><span class="bullet"></span><span class="key-text">Try different solutions creatively</span></li>
+              <li><span class="bullet"></span><span class="key-text">Observe before rushing into action</span></li>
+              <li><span class="bullet"></span><span class="key-text">Adapt strategies when needed</span></li>
+            </ul>
+          </div>
+          <div class="reflection-box">
+            <p class="reflection-text collapsed" id="reflection-zelda">
+              Problem-solving is the most positive skill that I acquired during The Legend of Zelda. The game has adequate puzzles, dungeons, and enemies. Each of the tasks has several solutions to be made. Initially, I would experiment with various techniques and find out what works. I was amazed sometimes to discover a new method for solving something. This experience of trial and error showed me that you cannot simply act when dealing with a difficult issue. The other thing you should do is to look around and think of the situation first. There were times that I would become trapped in a shrine or a dungeon, and it could not be completed simply through perseverance. During such moments, my thoughts would be on various solutions or refer to guides to have an insight into other players. This served as a lesson to me that it is not only about getting things over and done when it comes to solving problems. It also has the ability to look at the situation and alter how you are going to approach it when necessary. The Legend of Zelda provides the player with much freedom. The game has no right way to complete it. This implies that every player is able to solve problems his or her way. You are required to think on your own, be it where to go, what to use, or what puzzles to solve. It is similar to a research project or group work in university. In case you have complex issues, you must analyze the situation, experiment with alternative ways, receive feedback, and ultimately identify the most appropriate solution. Problem-solving abilities improved significantly through free exploration and creative thinking that were available in the game. I was taught to think, attempt, and reformulate my tactics when things are unpredictable. I also got to know how to utilize my funds and time efficiently.
+            </p>
+            <button class="read-more-btn" type="button" data-target="reflection-zelda">Read more</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="example-card">
+        <h3>Ace Attorney</h3>
+        <p class="example-subtitle">Language Learning &amp; Reading Skills</p>
+        <p class="example-summary">Ace Attorney made English practice feel more engaging and helped me improve vocabulary, reading attention, and comprehension.</p>
+        <div class="example-bottom">
+          <div class="key-points-box">
+            <h4 class="box-title">Key Points</h4>
+            <ul>
+              <li><span class="bullet"></span><span class="key-text">Practice English in an enjoyable way</span></li>
+              <li><span class="bullet"></span><span class="key-text">Learn vocabulary through context</span></li>
+              <li><span class="bullet"></span><span class="key-text">Improve reading focus and detail</span></li>
+            </ul>
+          </div>
+          <div class="reflection-box">
+            <p class="reflection-text collapsed" id="reflection-ace">
+              There are plenty of games in multiple languages available on the Switch. Games give me a chance to train in English. In my case, it is uncomfortable when learning a language becomes boring. Previously, I had problems about reading. I would read scholarly sources, but I forget I need to understand it. During a certain period, I did not want to read long texts to study english. Instead, I chose to learn English through playing games. The English game I decided to practice was Ace Attorney. The game is nearly completely dialogue-driven, and the words are not that difficult. I can easily look up the words that are very hard to pronounce. The fact that some sections are not understood does not make me stop playing the game. The change is that in the process of playing while learn new words. This way, I will be able to learn the language in a comfortable setting and build my vocabulary. This habit taught me to be more attentive when reading English works. With the help of Ace Attorney, I realized that my language abilities will get better on their own, and I will be interested. I also got to know how to pay attention to the key points in reading and understanding.
+            </p>
+            <button class="read-more-btn" type="button" data-target="reflection-ace">Read more</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="conclusion">
+      <p class="conclusion-label">Final Reflection</p>
+      <h2>Conclusion</h2>
+      <p>These games that I have learnt significant skills in one way or another. Overcooked helped me to understand the importance of teamwork and communication. The Legend of Zelda helped me to develop the skills of problem solving and creative thinking. Ace Attorney enabled me to have a nice experience of learning English and sharpening my concentration. Most of these skills can be used not only on the field, but also in life, at school. I got to know that both entertainment and learning can be combined using gaming. Proficiencies gained in this case through games will be applied to my future practice and studies. It will not be a waste of time when you extract something important out of the video games.</p>
+    </section>
+  </div>
+
+  <script>
+    document.querySelectorAll('.read-more-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const isCollapsed = target.classList.contains('collapsed');
+        target.classList.toggle('collapsed', !isCollapsed);
+        button.textContent = isCollapsed ? 'Show less' : 'Read more';
+      });
+    });
+  </script>
+</body>
+</html>
